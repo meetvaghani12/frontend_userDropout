@@ -1,0 +1,59 @@
+/* Theme Colors */
+:root {
+  --theme-purple: 267 84% 61%;
+  --theme-blue: 214 100% 60%;
+  --theme-pink: 330 81% 60%;
+  --theme-violet: 280 91% 65%;
+  --theme-indigo: 239 84% 67%;
+  --theme-orange: 27 96% 61%;
+  --theme-teal: 172 66% 50%;
+  --theme-bronze: 36 60% 72%;
+  --theme-mint: 160 84% 39%;
+}
+
+/* Theme Color Applications */
+.theme-purple {
+  --primary: var(--theme-purple);
+  --ring: var(--theme-purple);
+}
+
+.theme-blue {
+  --primary: var(--theme-blue);
+  --ring: var(--theme-blue);
+}
+
+.theme-pink {
+  --primary: var(--theme-pink);
+  --ring: var(--theme-pink);
+}
+
+.theme-violet {
+  --primary: var(--theme-violet);
+  --ring: var(--theme-violet);
+}
+
+.theme-indigo {
+  --primary: var(--theme-indigo);
+  --ring: var(--theme-indigo);
+}
+
+.theme-orange {
+  --primary: var(--theme-orange);
+  --ring: var(--theme-orange);
+}
+
+.theme-teal {
+  --primary: var(--theme-teal);
+  --ring: var(--theme-teal);
+}
+
+.theme-bronze {
+  --primary: var(--theme-bronze);
+  --ring: var(--theme-bronze);
+}
+
+.theme-mint {
+  --primary: var(--theme-mint);
+  --ring: var(--theme-mint);
+}
+
