@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { Check, Moon, RotateCcw } from "lucide-react"
+import { Check, RotateCcw } from "lucide-react"
 import { useTheme } from "next-themes"
 
 import {
@@ -47,7 +47,6 @@ export function ThemeSwitcher() {
     <Dialog>
       <DialogTrigger asChild>
         <SidebarMenuButton>
-          <Moon className="h-4 w-4 border-2 rounded-full p-1" />
           <span>Themes</span>
         </SidebarMenuButton>
       </DialogTrigger>

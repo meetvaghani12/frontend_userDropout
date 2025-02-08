@@ -1,25 +1,27 @@
 "use client"
 
-import { useState } from "react"
+import type React from "react"
+import { useState, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
-  Settings,
   Users,
   ImportIcon as FileImport,
-  AppWindowIcon as Apps,
+  AppWindow,
   Trash2,
+  Settings,
   Bell,
   Cloud,
   Calendar,
   Share2,
   LogOut,
   ChevronLeft,
+  Camera,
+  X,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
-import type React from "react"
 
 interface NavItem {
   title: string
@@ -42,7 +44,7 @@ const navigation: NavItem[] = [
   },
   {
     title: "App Center",
-    icon: <Apps className="h-4 w-4" />,
+    icon: <AppWindow className="h-4 w-4" />,
     href: "#app-center",
   },
   {
@@ -68,7 +70,7 @@ const navigation: NavItem[] = [
   },
   {
     title: "Apps",
-    icon: <Apps className="h-4 w-4" />,
+    icon: <AppWindow className="h-4 w-4" />,
     href: "#apps",
   },
   {
@@ -88,21 +90,45 @@ const navigation: NavItem[] = [
   },
 ]
 
-export function SettingsPage() {
-  const [isOpen, setIsOpen] = useState(true)
+interface SettingsProps {
+  onClose?: () => void
+}
+
+export  function SettingsPage({ onClose }: SettingsProps) {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true)
   const [activeItem, setActiveItem] = useState("My Settings")
+  const [profileImage, setProfileImage] = useState<string | null>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
+
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    if (file) {
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        setProfileImage(reader.result as string)
+      }
+      reader.readAsDataURL(file)
+    }
+  }
+
+  const handleRemovePhoto = () => {
+    setProfileImage(null)
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ""
+    }
+  }
 
   return (
-    <div className="min-h-screen bg-background flex">
+    <div className="fixed inset-0 z-50 bg-background flex w-screen h-screen">
       {/* Sidebar */}
       <aside
         className={cn(
-          "fixed left-0 top-0 z-40 h-screen w-64 border-r transition-transform bg-card",
-          !isOpen && "-translate-x-full",
+          "w-64 border-r transition-all duration-300 ease-in-out",
+          isSidebarOpen ? "translate-x-0" : "-translate-x-full",
         )}
       >
-        <div className="flex h-full flex-col px-3 py-4">
-          <Button variant="ghost" className="mb-4 justify-start gap-2" onClick={() => setIsOpen(false)}>
+        <div className="flex h-full flex-col bg-card px-3 py-4">
+          <Button variant="ghost" className="mb-4 justify-start gap-2" onClick={onClose}>
             <ChevronLeft className="h-4 w-4" />
             Back to Workspace
           </Button>
@@ -138,56 +164,91 @@ export function SettingsPage() {
       </aside>
 
       {/* Main Content */}
-      <main className={cn("flex-1 transition-all duration-200 ease-in-out", isOpen ? "pl-64" : "pl-0")}>
-        <div className="container mx-auto p-8">
-          <Card className="max-w-4xl mx-auto">
-            <CardHeader>
-              <CardTitle>My Settings</CardTitle>
-              <CardDescription>Your personal information and account security settings.</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-8">
-              <div className="flex flex-col items-center space-y-4">
+      <main className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8">
+        <Button
+          variant="outline"
+          size="icon"
+          className="mb-4 md:hidden"
+          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+        >
+          {isSidebarOpen ? <ChevronLeft /> : <ChevronLeft className="rotate-180" />}
+        </Button>
+
+        <Card className="max-w-4xl mx-auto">
+          <CardHeader>
+            <CardTitle>My Settings</CardTitle>
+            <CardDescription>Your personal information and account security settings.</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-8">
+            <div className="flex flex-col items-center space-y-4">
+              <div className="relative group">
                 <Avatar className="h-32 w-32">
+                  <AvatarImage src={profileImage || ""} />
                   <AvatarFallback className="text-4xl">MV</AvatarFallback>
                 </Avatar>
-                <h2 className="text-2xl font-bold">Meet Vaghani</h2>
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="absolute inset-0 bg-black/60 rounded-full" />
+                  <div className="relative flex gap-2">
+                    <Button
+                      size="icon"
+                      variant="ghost"
+                      className="h-8 w-8 bg-black/60 hover:bg-black/80"
+                      onClick={() => fileInputRef.current?.click()}
+                    >
+                      <Camera className="h-4 w-4" />
+                    </Button>
+                    {profileImage && (
+                      <Button
+                        size="icon"
+                        variant="ghost"
+                        className="h-8 w-8 bg-black/60 hover:bg-black/80"
+                        onClick={handleRemovePhoto}
+                      >
+                        <X className="h-4 w-4" />
+                      </Button>
+                    )}
+                  </div>
+                </div>
+                <input type="file" ref={fileInputRef} className="hidden" accept="image/*" onChange={handleFileUpload} />
+              </div>
+              <h2 className="text-2xl font-bold">Meet Vaghani</h2>
+            </div>
+
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <label htmlFor="fullName" className="text-sm font-medium">
+                  Full Name
+                </label>
+                <Input id="fullName" placeholder="Enter your full name" defaultValue="Meet Vaghani" />
               </div>
 
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <label htmlFor="fullName" className="text-sm font-medium">
-                    Full Name
-                  </label>
-                  <Input id="fullName" placeholder="Enter your full name" defaultValue="Meet Vaghani" />
-                </div>
-
-                <div className="space-y-2">
-                  <label htmlFor="email" className="text-sm font-medium">
-                    Email
-                  </label>
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="Enter your email"
-                    defaultValue="meetvaghani1239@gmail.com"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <label htmlFor="password" className="text-sm font-medium">
-                    Password
-                  </label>
-                  <Input id="password" type="password" placeholder="Enter new password" />
-                </div>
+              <div className="space-y-2">
+                <label htmlFor="email" className="text-sm font-medium">
+                  Email
+                </label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="Enter your email"
+                  defaultValue="meetvaghani1239@gmail.com"
+                />
               </div>
 
-              <div className="flex justify-end">
-                <Button size="lg">Save changes</Button>
+              <div className="space-y-2">
+                <label htmlFor="password" className="text-sm font-medium">
+                  Password
+                </label>
+                <Input id="password" type="password" placeholder="Enter new password" />
               </div>
-            </CardContent>
-          </Card>
-        </div>
+            </div>
+
+            <div className="flex justify-end">
+              <Button size="lg">Save changes</Button>
+            </div>
+          </CardContent>
+        </Card>
       </main>
     </div>
   )
 }
+

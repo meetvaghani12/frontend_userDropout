@@ -1,8 +1,5 @@
-"use client"
-
-import * as React from "react"
-import { addHours, addMinutes, addWeeks, endOfTomorrow } from "date-fns"
-import { Bell } from "lucide-react"
+import * as React from "react";
+import { addHours, addMinutes, addWeeks, endOfTomorrow } from "date-fns";
 
 import {
   DropdownMenu,
@@ -11,19 +8,19 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { SidebarMenuButton } from "@/components/ui/sidebar"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Calendar } from "@/components/ui/calendar"
-import { TimePickerDemo } from "./time-picker"
+} from "@/components/ui/dropdown-menu";
+import { SidebarMenuButton } from "@/components/ui/sidebar";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Calendar } from "@/components/ui/calendar";
+import { TimePickerDemo } from "./time-picker";
 
 interface MuteNotificationsProps {
-  isMuted: boolean
-  onMuteChange: (until: Date | null) => void
+  isMuted: boolean;
+  onMuteChange: (until: Date | null) => void;
 }
 
 export function MuteNotifications({ isMuted, onMuteChange }: MuteNotificationsProps) {
-  const [date, setDate] = React.useState<Date>()
+  const [date, setDate] = React.useState<Date>();
 
   const muteOptions = [
     {
@@ -46,13 +43,12 @@ export function MuteNotifications({ isMuted, onMuteChange }: MuteNotificationsPr
       label: "Until next week",
       getDate: () => addWeeks(new Date(), 1),
     },
-  ]
+  ];
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <SidebarMenuButton>
-          <Bell className="h-4 w-4" />
           <span>Mute notifications</span>
           {isMuted && <span className="ml-auto text-xs text-muted-foreground">On</span>}
         </SidebarMenuButton>
@@ -67,7 +63,9 @@ export function MuteNotifications({ isMuted, onMuteChange }: MuteNotificationsPr
         ))}
         <Dialog>
           <DialogTrigger asChild>
-            <DropdownMenuItem>Custom date and time</DropdownMenuItem>
+            <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+              Custom date and time
+            </DropdownMenuItem>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
@@ -87,6 +85,5 @@ export function MuteNotifications({ isMuted, onMuteChange }: MuteNotificationsPr
         )}
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }
-

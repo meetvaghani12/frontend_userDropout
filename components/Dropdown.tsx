@@ -20,13 +20,15 @@ import {
   Circle,
   HelpCircle,
   User,
+  Bell,
+  Palette,
 } from "lucide-react";
 import { StatusPicker } from "./status-picker";
 import { ThemeSwitcher } from "./theme-switcher";
 import { MuteNotifications } from "./mute-notifications";
 import { SettingsPage } from "./settings";
 import { KeyboardShortcutsDialog } from "./keyboard-shortcuts";
-import { ProfileView } from "./profile-view"; // Import ProfileView
+import { ProfileView } from "./profile-view";
 
 const statuses = [
   { value: "online", label: "Online", color: "bg-green-500" },
@@ -77,10 +79,15 @@ function Meet() {
               <User className="h-4 w-4 mr-2" />
               Profile
             </DropdownMenuItem>
-            <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+            <DropdownMenuItem className="flex items-center gap-2" onSelect={(e) => e.preventDefault()}>
+              <Bell className="h-4 w-4 mr-2" />
               <MuteNotifications isMuted={isMuted} onMuteChange={setMutedUntil} />
             </DropdownMenuItem>
-            <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+            <DropdownMenuItem
+              className="flex items-center gap-2"
+              onSelect={(e) => e.preventDefault()}
+            >
+              <Palette className="h-4 w-4 mr-2" />
               <ThemeSwitcher />
             </DropdownMenuItem>
             <DropdownMenuItem

@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+/* General styling */
 body {
   font-family: Arial, Helvetica, sans-serif;
 }
@@ -12,142 +13,103 @@ body {
   }
 }
 
+/* Default theme variables */
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 3.9%;
-    --primary: 0 0% 9%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 0 0% 96.1%;
-    --secondary-foreground: 0 0% 9%;
-    --muted: 0 0% 96.1%;
-    --muted-foreground: 0 0% 45.1%;
-    --accent: 0 0% 96.1%;
-    --accent-foreground: 0 0% 9%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 89.8%;
-    --input: 0 0% 89.8%;
-    --ring: 0 0% 3.9%;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
-    --radius: 0.5rem;
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --primary-border-color: black; /* Default for light mode */
   }
+
+  /* Dark theme default border color */
   .dark {
-    --background: 0 0% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 0 0% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 9%;
-    --secondary: 0 0% 14.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
-    --accent: 0 0% 14.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
-    --ring: 0 0% 83.1%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --primary-border-color: white;
   }
-}
 
-@layer base {
+  /* Define different theme colors */
+  .theme-purple {
+    --primary-border-color: #8E44AD;
+  }
+  .theme-blue {
+    --primary-border-color: #3498DB;
+  }
+  .theme-pink {
+    --primary-border-color: #FF6B81;
+  }
+  .theme-violet {
+    --primary-border-color: #6A5ACD;
+  }
+  .theme-indigo {
+    --primary-border-color: #4B0082;
+  }
+  .theme-orange {
+    --primary-border-color: #E67E22;
+  }
+  .theme-teal {
+    --primary-border-color: #1ABC9C;
+  }
+  .theme-bronze {
+    --primary-border-color: #CD7F32;
+  }
+  .theme-mint {
+    --primary-border-color: #2ECC71;
+  }
+
+  /* Apply the selected border color globally */
   * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
+    border-color: var(--primary-border-color) !important;
   }
 }
 
-
-
-:root {
-  --border-color: #1ABC9C; /* Default: Teal */
+/* Dark mode support */
+@layer base {
+  .dark {
+    --background: #121212;
+    --text-color: #ffffff;
+  }
+  body.dark {
+    background-color: var(--background);
+    color: var(--text-color);
+  }
 }
 
-.theme-purple {
-  --border-color: #8E44AD;
-}
-.theme-blue {
-  --border-color: #3498DB;
-}
-.theme-pink {
-  --border-color: #FF6B81;
-}
-.theme-violet {
-  --border-color: #6A5ACD;
-}
-.theme-indigo {
-  --border-color: #4B0082;
-}
-.theme-orange {
-  --border-color: #E67E22;
-}
-.theme-teal {
-  --border-color: #1ABC9C;
-}
-.theme-bronze {
-  --border-color: #CD7F32;
-}
-.theme-mint {
-  --border-color: #2ECC71;
+/* UI component styles */
+.button {
+  @apply px-4 py-2 rounded-md font-semibold transition-all;
 }
 
-
- /* button {
-  background-color: #1f2937;
-  color: white;
-  padding: 8px 12px;
-  border-radius: 6px;
-  transition: background 0.3s ease;
-} */
-
-/* button:hover {
-  background-color: #374151;
+.button-primary {
+  @apply bg-blue-500 text-white hover:bg-blue-600;
 }
 
-.bg-gray-900 {
-  background-color: #111827;
+.button-outline {
+  @apply border border-gray-300 text-gray-700 hover:bg-gray-100;
 }
 
-.bg-gray-800 {
-  background-color: #1f2937;
+/* Dialog styling */
+.dialog-content {
+  @apply bg-white dark:bg-gray-900 p-6 rounded-lg shadow-lg;
 }
 
-.bg-gray-700 {
-  background-color: #374151;
-}  */
+/* Sidebar menu styles */
+.sidebar-menu-button {
+  @apply flex items-center gap-2 px-4 py-2 rounded-lg transition-all cursor-pointer;
+}
+
+/* Custom scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--primary-border-color);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Input fields */
+input {
+  @apply border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary;
+}
